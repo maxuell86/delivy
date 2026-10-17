@@ -8,6 +8,8 @@ cupons e Pix próprios.
 O projeto nasceu para a pizzaria **Sabore In Casa** e hoje é a plataforma:
 os valores dela seguem em `config.js` como padrão da "loja local".
 
+> 📌 **Vai colocar em produção?** Siga o passo a passo em [`DEPLOY.md`](DEPLOY.md).
+
 ## 🏗️ Como funciona a arquitetura
 
 Dois Supabase (ou dois papéis):
