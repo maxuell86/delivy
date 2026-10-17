@@ -1,0 +1,189 @@
+[
+  {
+    "nome": "Combo Casal",
+    "categoria": "combos",
+    "preco": 72.90,
+    "descricao": "1 Pizza Gigante 35cm + 1 Refrigerante 2l",
+    "foto": "imagens/combos/combo-casal.webp"
+  },
+  {
+    "nome": "Combo Solteiro",
+    "categoria": "combos",
+    "preco": 37.90,
+    "descricao": "1 Pizza Pequena 25cm + 1 Coca-Cola 350ml",
+    "foto": "imagens/combos/combo-solteiro.webp"
+  },
+  {
+    "nome": "Combo Família",
+    "categoria": "combos",
+    "preco": 149.90,
+    "descricao": "2 Pizzas Gigantes 35cm + 2 Refrigerantes 2l",
+    "foto": "imagens/combos/combo-familia.webp"
+  },
+  {
+    "nome": "Combo Amigos",
+    "categoria": "combos",
+    "preco": 169.90,
+    "descricao": "6 Heinekens 473ml + 6 Brahmas 473ml + 1 Pizza Gigante 35cm",
+    "foto": "imagens/combos/combo-amigos.webp"
+  },
+
+  {
+    "nome": "Batata Frita Crocante",
+    "categoria": "snacks",
+    "preco": 36.90,
+    "descricao": "Porção de batata frita crocante",
+    "foto": "imagens/snaks/batata-frita.webp"
+  },
+  {
+    "nome": "Nuggets de Frango",
+    "categoria": "snacks",
+    "preco": 38.90,
+    "descricao": "10 nuggets crocantes",
+    "foto": "imagens/snaks/nuggets-frango.webp"
+  },
+  {
+    "nome": "Halls",
+    "categoria": "snacks",
+    "preco": 6.90,
+    "descricao": "Bala refrescante",
+    "foto": "imagens/snaks/halls.webp"
+  },
+  {
+    "nome": "Gulão",
+    "categoria": "snacks",
+    "preco": 6.90,
+    "descricao": "Gulão",
+    "foto": "imagens/snaks/gulao.webp"
+  },
+
+  {
+    "nome": "Coca-Cola 2l",
+    "categoria": "bebidas",
+    "preco": 16.90,
+    "descricao": "Refrigerante Coca-Cola 2l",
+    "foto": "imagens/bebidas/coca_cola.webp"
+  },
+  {
+    "nome": "Coca-Cola Zero 2l",
+    "categoria": "bebidas",
+    "preco": 16.90,
+    "descricao": "Refrigerante Coca Zero 2l",
+    "foto": "imagens/bebidas/coca_zero.webp"
+  },
+  {
+    "nome": "Guaraná Antarctica 2l",
+    "categoria": "bebidas",
+    "preco": 13.90,
+    "descricao": "Refrigerante Guaraná Antarctica 2l",
+    "foto": "imagens/bebidas/guarana.webp"
+  },
+  {
+    "nome": "Sprite 2l",
+    "categoria": "bebidas",
+    "preco": 13.90,
+    "descricao": "Refrigerante Sprite 2l",
+    "foto": "imagens/bebidas/sprite.webp"
+  },
+
+  {
+    "nome": "Coca-Cola 350ml",
+    "categoria": "bebidas",
+    "preco": 6.90,
+    "descricao": "Refrigerante Coca-Cola 350ml",
+    "foto": "imagens/bebidas/coca_cola_350ml.webp"
+  },
+  {
+    "nome": "Coca-Cola Zero 350ml",
+    "categoria": "bebidas",
+    "preco": 6.90,
+    "descricao": "Refrigerante Coca Zero 350ml",
+    "foto": "imagens/bebidas/coca_zero_350ml.webp"
+  },
+  {
+    "nome": "Guaraná Antarctica 350ml",
+    "categoria": "bebidas",
+    "preco": 5.90,
+    "descricao": "Refrigerante Guaraná Antarctica 350ml",
+    "foto": "imagens/bebidas/guarana_350ml.webp"
+  },
+
+  {
+    "nome": "Heineken 473ml",
+    "categoria": "bebidas",
+    "preco": 11.90,
+    "descricao": "Cerveja Heineken lata 473ml",
+    "foto": "imagens/bebidas/heineken.webp"
+  },
+  {
+    "nome": "Brahma 473ml",
+    "categoria": "bebidas",
+    "preco": 8.90,
+    "descricao": "Cerveja Brahma lata 473ml",
+    "foto": "imagens/bebidas/brahma.webp"
+  },
+  {
+    "nome": "Spaten 473ml",
+    "categoria": "bebidas",
+    "preco": 8.90,
+    "descricao": "Cerveja Spaten lata 473ml",
+    "foto": "imagens/bebidas/spaten.webp"
+  },
+  {
+    "nome": "Bohemia 473ml",
+    "categoria": "bebidas",
+    "preco": 8.90,
+    "descricao": "Cerveja Bohemia lata 473ml",
+    "foto": "imagens/bebidas/bohemia.webp"
+  },
+  {
+    "nome": "Amstel Lager 473ml",
+    "categoria": "bebidas",
+    "preco": 8.90,
+    "descricao": "Cerveja Amstel Lager puro malte, lata 473ml",
+    "foto": "imagens/bebidas/cerveja_amstel.webp"
+  },
+  {
+    "nome": "Cerveja Original 473ml",
+    "categoria": "bebidas",
+    "preco": 8.90,
+    "descricao": "Cerveja Original Pilsen lata 473ml",
+    "foto": "imagens/bebidas/cerveja_original.webp"
+  },
+  {
+    "nome": "Stella Artois 473ml",
+    "categoria": "bebidas",
+    "preco": 11.90,
+    "descricao": "Cerveja Stella Artois lata 473ml",
+    "foto": "imagens/bebidas/cerveja_stella_artois.webp"
+  },
+  {
+    "nome": "Guaraná FYS 350ml",
+    "categoria": "bebidas",
+    "preco": 6.90,
+    "descricao": "Refrigerante de Guaraná da Amazônia FYS, 50% menos açúcar, lata 350ml",
+    "foto": "imagens/bebidas/guarana_fys.webp"
+  },
+  {
+    "nome": "Guaraná Antarctica 1L",
+    "categoria": "bebidas",
+    "preco": 9.90,
+    "descricao": "Refrigerante Guaraná Antarctica 1l",
+    "foto": "imagens/bebidas/guarana_antarctica_1l.webp"
+  },
+
+  {
+    "nome": "Água Mineral 500ml Sem Gás",
+    "categoria": "bebidas",
+    "preco": 4.90,
+    "descricao": "Água mineral 500ml sem gás",
+    "foto": "imagens/bebidas/agua_sem_gas_500ml.webp"
+  },
+  {
+    "nome": "Água Mineral 500ml Com Gás",
+    "categoria": "bebidas",
+    "preco": 5.90,
+    "descricao": "Água mineral 500ml com gás",
+    "foto": "imagens/bebidas/agua_com_gas_500ml.webp"
+  }
+]
