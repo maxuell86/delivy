@@ -16,15 +16,7 @@ let C = null            // config de trabalho (padrao + cache + remoto)
 let senhaPainel = ""    // senha digitada (usada no salvamento)
 let cli = null          // cliente Supabase
 
-// Cache local escopado por loja (slug) - evita que uma loja herde a
-// personalizacao de outra no mesmo navegador.
-function chaveCache(){
-    const slug = String(window.LOJA_SLUG || "").trim().toLowerCase()
-    return slug ? "configLojaOverride:" + slug : "configLojaOverride"
-}
-
-// Bucket do Supabase Storage onde as imagens da loja sao guardadas.
-const BUCKET_IMAGENS = "loja-imagens"
+const CHAVE_CACHE = "configLojaOverride"
 
 // ---------- Helpers de DOM ----------
 const el  = id => document.getElementById(id)
@@ -48,37 +40,6 @@ function status(msg, tipo){
 function msgGate(msg){
     const g = el("gateMsg")
     if(g) g.innerText = msg || ""
-}
-
-// ---------- Upload de imagens (Supabase Storage) ----------
-// Envia a imagem para o bucket da loja e devolve a URL publica. O bucket e as
-// politicas de acesso sao criados por supabase/storage.sql no Supabase da loja.
-
-async function subirImagem(arquivo, pasta){
-    if(!cli) throw new Error("Supabase não conectado")
-    if(!arquivo) throw new Error("Nenhum arquivo selecionado")
-    const ext = (arquivo.name.split(".").pop() || "png").toLowerCase()
-    const caminho = `${pasta || "geral"}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`
-    const { error } = await cli.storage.from(BUCKET_IMAGENS).upload(caminho, arquivo, { cacheControl: "3600", upsert: false })
-    if(error) throw error
-    const { data } = cli.storage.from(BUCKET_IMAGENS).getPublicUrl(caminho)
-    return data.publicUrl
-}
-
-async function enviarImagemPara(inputId, fileInput, pasta){
-    const campo = el(inputId)
-    const arquivo = fileInput && fileInput.files && fileInput.files[0]
-    if(!arquivo){ status("Escolha um arquivo primeiro.", "aviso"); return }
-    status("Enviando imagem...")
-    try{
-        const url = await subirImagem(arquivo, pasta)
-        if(campo) campo.value = url
-        status("✓ Imagem enviada. Clique em <b>Salvar e publicar</b> para aplicar.", "ok")
-        atualizarPreview()
-    }catch(e){
-        status("Erro ao enviar imagem: " + (e?.message || e) +
-            " — confirme que o bucket <b>" + BUCKET_IMAGENS + "</b> existe (rode supabase/storage.sql no Supabase da loja).", "erro")
-    }
 }
 
 // ---------- Merge / diff / cache ----------
@@ -121,13 +82,13 @@ function diffProfundo(base, atual){
 }
 
 function lerCache(){
-    try{ return JSON.parse(localStorage.getItem(chaveCache()) || "{}") }catch(e){ return {} }
+    try{ return JSON.parse(localStorage.getItem(CHAVE_CACHE) || "{}") }catch(e){ return {} }
 }
 function salvarCache(dados){
-    try{ localStorage.setItem(chaveCache(), JSON.stringify(dados || {})) }catch(e){}
+    try{ localStorage.setItem(CHAVE_CACHE, JSON.stringify(dados || {})) }catch(e){}
 }
 function limparCache(){
-    try{ localStorage.removeItem(chaveCache()) }catch(e){}
+    try{ localStorage.removeItem(CHAVE_CACHE) }catch(e){}
 }
 
 // ---------- Construtores de campos ----------
@@ -178,27 +139,12 @@ function montarTabs(){
 // ---------- Ligacao com o Supabase ----------
 
 async function conectarSupabase(){
-    if(window.tenantPronto){ try{ await window.tenantPronto }catch(e){ /* segue */ } }
-    const loja = window.LOJA || {}
     const cfg = (window.CONFIG_PADRAO && window.CONFIG_PADRAO.integracoes) || {}
-    const url = loja.supabase_url || cfg.supabaseUrl
-    const key = loja.supabase_anon_key || cfg.supabaseAnonKey
-
-    if(loja.status === "nao_encontrada" || loja.status === "suspenso" || loja.status === "erro"){
-        status("⚠️ A loja <b>" + esc(loja.slug || "") + "</b> não está disponível no control plane (status: " + esc(loja.status) + ").", "aviso")
+    if(typeof window.supabase === "undefined" || !cfg.supabaseUrl || !cfg.supabaseAnonKey){
+        status("⚠️ Supabase não configurado no config.js — o painel funciona só neste navegador (use \"Exportar config.js\" para aplicar em produção).", "aviso")
         return
     }
-
-    if(typeof window.supabase === "undefined" || !url || !key){
-        status("⚠️ Supabase não configurado — o painel funciona só neste navegador (use \"Exportar config.js\" para aplicar em produção).", "aviso")
-        return
-    }
-    cli = window.supabase.createClient(url, key)
-    await carregarRemota()
-}
-
-async function carregarRemota(){
-    if(!cli) return
+    cli = window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey)
     try{
         const { data, error } = await cli
             .from("config_loja")
@@ -289,7 +235,7 @@ function renderMarca(){
     ${linha("Parágrafos (um por linha)", textarea("mSobreParagrafos", (so.paragrafos || []).join("\n"), 5))}
     <h3>Contato</h3>
     <div class="grid2">
-        ${linha("WhatsApp (só dígitos, com 55)", inputTxt("mWhatsapp", ct.whatsapp), "Ex: 5531999999999 — destino dos pedidos")}
+        ${linha("WhatsApp (só dígitos, com 55)", inputTxt("mWhatsapp", ct.whatsapp), "Ex: 5565996953036 — destino dos pedidos")}
         ${linha("WhatsApp exibido", inputTxt("mWhatsappExibicao", ct.whatsappExibicao))}
         ${linha("Telefone (usado no Google/SEO)", inputTxt("mTelefone", ct.telefone))}
     </div>
@@ -356,10 +302,6 @@ function renderTema(){
     <div class="grid3">
         ${CORES_TEMA.map(([id, rotulo, chave])=>linha(rotulo, inputCor(id, t[chave]))).join("")}
     </div>
-    <h3>Imagem de capa (topo do app)</h3>
-    ${linha("URL ou caminho da imagem",
-        inputTxt("temaCapa", t.capa) + `<input type="file" accept="image/*" style="margin-top:8px" onchange="enviarImagemPara('temaCapa', this, 'capa')">`,
-        "Cole uma URL/caminho ou envie um arquivo para o Supabase Storage")}
     <h3>Fontes (Google Fonts)</h3>
     <datalist id="listaFontes">${FONTES_COMUNS.map(x=>`<option value="${x}">`).join("")}</datalist>
     <div class="grid2">
@@ -382,7 +324,6 @@ function renderTema(){
 function coletarTema(){
     C.tema = C.tema || {}
     CORES_TEMA.forEach(([id, , chave])=>{ C.tema[chave] = vf(id) })
-    C.tema.capa = vf("temaCapa").trim()
     C.tema.fontes = { corpo: vf("temaFonteCorpo").trim() || "Nunito", titulo: vf("temaFonteTitulo").trim() || "Montserrat" }
     C.tema.raio = vf("temaRaio").trim() || "14px"
 }
@@ -656,7 +597,7 @@ function renderListaBanners(){
         <div class="grid3">
             ${linha("Nome do combo", inputTxt("bannerNome" + i, b.nome))}
             ${linha("Preço (R$)", inputNum("bannerPreco" + i, b.preco, 0, 99999, 0.1))}
-            ${linha("Foto (caminho ou upload)", inputTxt("bannerFoto" + i, b.foto) + `<input type="file" accept="image/*" style="margin-top:8px" onchange="enviarImagemPara('bannerFoto${i}', this, 'banners')">`)}
+            ${linha("Foto (caminho)", inputTxt("bannerFoto" + i, b.foto))}
         </div>
         ${linha("Frase ao adicionar (opcional)", inputTxt("bannerToast" + i, b.toast), "Ex: perfeito pra dividir!")}
         <button class="btn-remover" onclick="removerBanner(${i})">🗑️ Remover banner</button>
@@ -914,7 +855,6 @@ function exportarManifest(){
 // ---------- Boot ----------
 
 document.addEventListener("DOMContentLoaded", async ()=>{
-    if(window.tenantPronto){ try{ await window.tenantPronto }catch(e){ /* segue */ } }
     C = mergeProfundo(window.CONFIG_PADRAO || {}, lerCache())
     montarTabs()
     render()

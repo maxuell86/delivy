@@ -54,18 +54,12 @@ a.voltar:hover{ color:#ccc; }
     <a class="voltar" href="index.html">← Voltar ao app de delivery</a>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.3" integrity="sha384-l8ah+VgaWtk1mvOe9VC+OirC6qHFF4yH7l7mKRidV9MSti3E9F463bMp6ZVN4kuC" crossorigin="anonymous"></script>
-<script src="plataforma.js"></script>
-<script src="tenant.js"></script>
 <script src="config.js"></script>
 <script>
-// Personaliza a pagina com os dados da loja (tenant) e do config.js
-// (nome da loja e link do sistema de gestao).
-(async function(){
-    var loja = null
-    try{ loja = await window.tenantPronto }catch(e){}
+// Personaliza a pagina com os dados de config.js (nome da loja e link do sistema de gestao)
+(function(){
     var c = window.CONFIG_PADRAO || {}
-    var nome = (loja && loja.nome) || (c.marca && c.marca.nome) || "Delivery"
+    var nome = (c.marca && c.marca.nome) || "Delivery"
     document.title = nome + " — Painel"
     document.getElementById("adminTitulo").innerText = "Painel de " + nome
     var link = (c.integracoes && c.integracoes.painelGestaoUrl) || ""

@@ -4,33 +4,19 @@
 // Este app de delivery passa a buscar o cardapio (pizzas e bebidas) e a
 // registrar cada pedido diretamente no banco do painel de gestao.
 //
-// As chaves do Supabase vem da loja resolvida pelo tenant.js (control plane)
-// e, na falta dela, do config.js (integracoes) - trocar de restaurante e
-// trocar os valores la, nao aqui.
+// As chaves do Supabase vem de config.js (integracoes) - trocar de restaurante
+// e trocar os valores la, nao aqui.
 //
 // Se o Supabase estiver fora do ar, o app continua funcionando normalmente
 // com os dados locais (produtos.json / config.js) - o envio do pedido pelo
 // WhatsApp NUNCA fica bloqueado por causa disso.
 
-// URL/chave efetivas: a loja resolvida tem prioridade sobre o config.js.
-function integracoesEfetivas(){
-    const base = (window.CONFIG && window.CONFIG.integracoes) || {}
-    const loja = window.LOJA || {}
-    // Loja resolvida mas indisponivel: nao cai para o Supabase padrao
-    // (evita mostrar dados de outra loja sob um subdominio bloqueado).
-    if(window.LOJA && ["nao_encontrada", "suspenso", "erro"].includes(loja.status)){
-        return { url: "", key: "" }
-    }
-    return {
-        url: loja.supabase_url || base.supabaseUrl || "",
-        key: loja.supabase_anon_key || base.supabaseAnonKey || ""
-    }
-}
+const SISTEMA_SUPABASE_URL = CONFIG.integracoes.supabaseUrl
+const SISTEMA_SUPABASE_ANON_KEY = CONFIG.integracoes.supabaseAnonKey
 
-// Cliente Supabase do sistema de gestao. Criado depois que o tenant.js resolve
-// a loja (por isso comeca nulo). app.js/pagamento-mercadopago.js leem esta
-// variavel dentro das funcoes, quando ela ja existe.
-let sistemaSupabase = null
+const sistemaSupabase = (typeof window.supabase !== "undefined" && SISTEMA_SUPABASE_URL && SISTEMA_SUPABASE_ANON_KEY)
+    ? window.supabase.createClient(SISTEMA_SUPABASE_URL, SISTEMA_SUPABASE_ANON_KEY)
+    : null
 
 // A descricao e o selo de cada sabor agora vem do banco (sabores_pizza.descricao
 // / .selo, editaveis no painel de gestao > Cardapio). O dicionario de reserva
@@ -53,6 +39,8 @@ let cardapioPizzas = []
 let cardapioBebidas = []
 let cardapioLanches = []
 let cardapioCombos = []
+
+const cardapioProntoPromise = carregarCardapioDoSistema()
 
 async function carregarCardapioDoSistema(){
     if(!sistemaSupabase) return
@@ -165,29 +153,4 @@ async function carregarConfigRemotaDoSistema(){
     }
 }
 
-// ===============================
-// INICIALIZACAO
-// ===============================
-// Espera o tenant.js resolver a loja, cria o cliente Supabase dela e entao
-// carrega o cardapio e a configuracao remota. Enquanto isso, o app ja esta na
-// tela com os dados locais (config.js / produtos.json).
-
-async function iniciarIntegracao(){
-    if(window.tenantPronto){
-        try{ await window.tenantPronto }catch(e){ /* segue com o config.js local */ }
-    }
-    const conf = integracoesEfetivas()
-    if(typeof window.supabase !== "undefined" && conf.url && conf.key){
-        sistemaSupabase = window.supabase.createClient(conf.url, conf.key)
-    }
-    if(!sistemaSupabase) return null
-    await Promise.all([
-        carregarCardapioDoSistema(),
-        carregarConfigRemotaDoSistema()
-    ])
-    return sistemaSupabase
-}
-
-// app.js aguarda esta promise antes de renderizar o cardapio. Ela tambem
-// cobre a resolucao do tenant e a configuracao remota.
-const cardapioProntoPromise = iniciarIntegracao()
+carregarConfigRemotaDoSistema()

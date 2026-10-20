@@ -141,7 +141,7 @@ button:active { transform:scale(0.95) !important; }
 
 .header-topo {
     position:relative; height:260px;
-    background:var(--capa, url("imagens/capa.png")) no-repeat center 62% / cover;
+    background:url("imagens/capa.png") no-repeat center 62% / cover;
     display:flex; align-items:center; justify-content:center; overflow:hidden;
 }
 .overlay { position:absolute; inset:0; background:rgba(0,0,0,0.28); z-index:1; }
@@ -947,11 +947,11 @@ footer { text-align:center; font-size:15px; color:#aaa; padding:30px 0 95px; max
 }
 .header-topo::before{
     content:""; position:absolute; inset:-20px; z-index:-1;
-    background:var(--capa, url("imagens/capa.png")) center/cover no-repeat; filter:blur(18px) brightness(.55);
+    background:url("imagens/capa.png") center/cover no-repeat; filter:blur(18px) brightness(.55);
 }
 .header-topo::after{
     content:""; position:absolute; inset:0; z-index:0;
-    background:var(--capa, url("imagens/capa.png")) center/contain no-repeat;
+    background:url("imagens/capa.png") center/contain no-repeat;
 }
 .header-topo .overlay{ background:transparent; }
 

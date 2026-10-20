@@ -1,7 +1,7 @@
 {
-"name":"Sabore In Casa",
-"short_name":"Sabore",
-"description":"Peça pizza online em Belo Horizonte com entrega rápida — cardápio, carrinho e pedido direto pelo WhatsApp.",
+"name":"Max hamburguer",
+"short_name":"Max",
+"description":"Peça hambúrguer online em Tangará da Serra com entrega rápida — cardápio, carrinho e pedido direto pelo WhatsApp.",
 "display":"standalone",
 "start_url":"./",
 "scope":"./",

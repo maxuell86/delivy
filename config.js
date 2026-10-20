@@ -23,37 +23,38 @@ window.CONFIG_PADRAO = {
 
     // ---------- Marca ----------
     marca: {
-        nome: "Sabore In Casa",
-        slogan: "Pizzaria Delivery",
+        nome: "Max hamburguer",
+        slogan: "Hambúrgueres Artesanais",
         logo: "",
         favicon: "imagens/icons/icon-192.png",
         appleIcon: "imagens/icons/icon-512.png",
-        rodape: "© Sabore In Casa",
-        credito: "Desenvolvido por <b>Carlos Henrique</b>",
-        tagline: "🌾 <b>Todas as nossas pizzas são feitas com massa 100% integral</b>",
+        rodape: "© Max hamburguer",
+        credito: "Desenvolvido por <b>Maxuell Lisboa</b>",
+        tagline: "🌾 <b>Todos os nossos hambúrgueres são feitos com massa 100% integral</b>",
         sobre: {
             titulo: "🌾 Nossa massa é 100% integral",
             paragrafos: [
-                "Na Sabore In Casa, toda pizza é feita com massa 100% integral — mais fibras, mais sabor e a mesma leveza de sempre. É o que nos diferencia das outras pizzarias da região: você não abre mão do sabor pra comer melhor.",
-                "Ficamos no Bairro Mantiqueira, Belo Horizonte, e entregamos em dezenas de bairros ao redor — de Venda Nova a Vespasiano, Santa Luzia, Ribeirão das Neves e Contagem."
+                "Vamos de hamburguer artesanal com massa 100% integral, feito com ingredientes frescos e selecionados para garantir o melhor sabor.",
+                "Nosso compromisso é oferecer uma experiência gastronômica única, com hambúrgueres suculentos e acompanhamentos deliciosos.",
+                "Venha nos visitar e descubra o verdadeiro sabor do hambúrguer artesanal!"
             ]
         }
     },
 
     // ---------- Contato ----------
     contato: {
-        whatsapp: "5531983391576",          // so digitos, com DDI (55) - destino dos pedidos
-        whatsappExibicao: "(31) 98339-1576",
-        telefone: "+55 31 98339-1576"       // usado no schema.org (SEO)
+        whatsapp: "5565996953036",          // so digitos, com DDI (55) - destino dos pedidos
+        whatsappExibicao: "(65) 99695-3036",
+        telefone: "+55 65 99695-3036"       // usado no schema.org (SEO)
     },
 
     // ---------- Endereco ----------
     endereco: {
-        rua: "Rua Maria de Lourdes da Cruz",
+        rua: "Rua B (Lot Bela Vista)",
         numero: "378",
-        bairro: "Mantiqueira",
-        cidade: "Belo Horizonte",
-        estado: "MG",
+        bairro: "Jd Buritis",
+        cidade: "Tangará da Serra",
+        estado: "MT",
         cep: ""
     },
 
@@ -93,7 +94,6 @@ window.CONFIG_PADRAO = {
         fundo: "#111",
         card: "#1f1f1f",
         item: "#2a2a2a",
-        capa: "imagens/capa.png",       // imagem de topo (troque pela sua / URL do Storage)
         fontes: { corpo: "Nunito", titulo: "Montserrat" },
         raio: "14px"
     },
@@ -216,21 +216,21 @@ window.CONFIG_PADRAO = {
 
     // ---------- SEO ----------
     seo: {
-        baseUrl: "https://saboreincasa.github.io/app-delivery-sabore-in-casa/",
-        titulo: "Sabore In Casa — Pizzaria Delivery em Belo Horizonte (Mantiqueira)",
-        descricao: "Pizza de massa 100% integral em Belo Horizonte — cardápio de pizzas, bebidas e combos com entrega no Bairro Mantiqueira e região. Pedido rápido direto pelo WhatsApp.",
+        baseUrl: "https://maxhamburguer.github.io/app-delivery-max-hamburguer/",
+        titulo: "Max hamburguer — Hamburgueria Delivery em Tangará da Serra (Jd Buritis)",
+        descricao: "Hambúrgueres artesanais de massa 100% integral em Tangará da Serra — cardápio de hambúrgueres, bebidas e combos com entrega no Bairro Jd Buritis e região. Pedido rápido direto pelo WhatsApp.",
         ogImage: "imagens/capa.png",
         tipo: "Restaurant",
-        culinaria: "Pizza",
-        faixaPreco: "R$32 - R$170",
-        areaAtendida: ["Belo Horizonte", "Vespasiano", "Ribeirão das Neves", "Santa Luzia", "Contagem"]
+        culinaria: "Hambúrguer",
+        faixaPreco: "R$15 - R$30",
+        areaAtendida: ["Tangará da Serra", "Vespasiano", "Ribeirão das Neves", "Santa Luzia", "Contagem"]
     },
 
     // ---------- PWA (instalacao como app) ----------
     pwa: {
-        nome: "Sabore In Casa",
-        shortName: "Sabore",
-        descricao: "Peça pizza online em Belo Horizonte com entrega rápida — cardápio, carrinho e pedido direto pelo WhatsApp.",
+        nome: "Max hamburguer",
+        shortName: "Max",
+        descricao: "Peça hambúrguer online em Tangará da Serra com entrega rápida — cardápio, carrinho e pedido direto pelo WhatsApp.",
         themeColor: "#d32f2f",
         backgroundColor: "#111",
         icons: [
@@ -244,17 +244,17 @@ window.CONFIG_PADRAO = {
 
     // ---------- Integracoes ----------
     integracoes: {
-        supabaseUrl: "https://hzkmhtfwulxvysorvcjb.supabase.co",
-        supabaseAnonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh6a21odGZ3dWx4dnlzb3J2Y2piIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY2OTk2MDksImV4cCI6MjEwMjI3NTYwOX0.TgB3ePpPMCHTvHiK56pZFAY--YPw625HidVRnHaFfZ4",
-        mercadoPagoPublicKey: "APP_USR-d1f0aba4-832f-42d4-8075-e65e4fdf5bb9",
-        pixChave: "31983391576",
-        painelGestaoUrl: "https://saboreincasa.github.io/sabore-in-casa-sistema/"
+        supabaseUrl: "https://sihybdkyeggcxluaatfw.supabase.co",
+        supabaseAnonKey: "sb_publishable_fDgSv2pFmgSsBKVEqAfRMg_YiffG0Le",
+        mercadoPagoPublicKey: "...",
+        pixChave: "65996953036",
+        painelGestaoUrl: "https://maxhamburguer.github.io/max-hamburguer-sistema/"
     },
 
     // ---------- Painel de customizacao (customizar.html) ----------
     painel: {
         // Protecao simples contra uso casual. A senha que vale para SALVAR no
         // Supabase e a cadastrada em supabase/config-loja.sql (hash no banco).
-        senha: "sabore2024"
+        senha: "142536"
     }
 }

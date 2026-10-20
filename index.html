@@ -34,7 +34,7 @@
   "name": "Sabore In Casa",
   "url": "https://saboreincasa.github.io/app-delivery-sabore-in-casa/",
   "image": "https://saboreincasa.github.io/app-delivery-sabore-in-casa/imagens/capa.png",
-  "telephone": "+55 31 98339-1576",
+  "telephone": "+55 65 99695-3036",
   "priceRange": "R$32 - R$170",
   "servesCuisine": "Pizza",
   "acceptsReservations": false,
@@ -64,12 +64,6 @@
   ]
 }
 </script>
-
-<!-- Plataforma (control plane) + resolucao da loja (tenant). O tenant.js
-     precisa do SDK do Supabase, por isso ele vem antes do config.js. -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.3" integrity="sha384-l8ah+VgaWtk1mvOe9VC+OirC6qHFF4yH7l7mKRidV9MSti3E9F463bMp6ZVN4kuC" crossorigin="anonymous"></script>
-<script src="plataforma.js"></script>
-<script src="tenant.js"></script>
 
 <!-- Config central do restaurante (template white-label): edite config.js
      ou use o painel customizar.html. O loader mescla tudo e aplica. -->
@@ -167,13 +161,23 @@
 <div id="boasVindas" onclick="abrirPerfilCliente()"></div>
 
 <div id="bannerRelampago">
+  ⚡ <b>Happy Hour: 5% OFF por tempo limitado!</b>
   <span id="countdownRelampago" class="rel-countdown"></span>
 </div>
 
 <div id="barraFidelidade"></div>
 
 <div class="endereco" id="blocoLoja">
-<h1 style="font-size:17px;margin-bottom:6px;">Carregando...</h1>
+<h1 style="font-size:17px;margin-bottom:6px;">🍕 Sabore In Casa — Pizzaria Delivery</h1>
+📍 Rua Maria de Lourdes da Cruz Nº 378<br>
+Bairro Mantiqueira – Belo Horizonte
+<br>
+📞 <a href="https://wa.me/5565996953036" style="color:inherit;">(65) 99695-3036</a>
+&nbsp;|&nbsp; 🕕 Ter a Dom, 18h às 00h (fechado às segundas)
+<br>
+🌾 <b>Todas as nossas pizzas são feitas com massa 100% integral</b>
+<br>
+<button onclick="abrirMapa()">📍 Ver no mapa</button>
 </div>
 
 <div id="banner" class="banner" style="cursor:pointer;"></div>
@@ -270,13 +274,20 @@ Enviar pedido no WhatsApp
 
 <details id="cardapioCompleto" aria-label="Cardápio completo"></details>
 
-<section id="sobreNos"></section>
+<section id="sobreNos">
+  <h2>🌾 Nossa massa é 100% integral</h2>
+  <p>Na Sabore In Casa, toda pizza é feita com massa 100% integral — mais fibras, mais sabor e a mesma leveza de sempre. É o que nos diferencia das outras pizzarias da região: você não abre mão do sabor pra comer melhor.</p>
+  <p>Ficamos no Bairro Mantiqueira, Belo Horizonte, e entregamos em dezenas de bairros ao redor — de Venda Nova a Vespasiano, Santa Luzia, Ribeirão das Neves e Contagem.</p>
+</section>
 
 <div id="botaoCarrinho" onclick="scrollCarrinho()">
 🛒 <div id="contador">0</div>
 </div>
 
-<footer id="rodapeLoja"></footer>
+<footer id="rodapeLoja">
+© Sabore In Casa<br>
+Desenvolvido por <b>Carlos Henrique</b>
+</footer>
 
 <div id="toast"></div>
 
@@ -286,6 +297,7 @@ Enviar pedido no WhatsApp
   <span onclick="fecharInstalarBanner()">✕</span>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.3" integrity="sha384-l8ah+VgaWtk1mvOe9VC+OirC6qHFF4yH7l7mKRidV9MSti3E9F463bMp6ZVN4kuC" crossorigin="anonymous"></script>
 <script src="https://sdk.mercadopago.com/js/v2"></script>
 <script src="integracao-sistema.js"></script>
 <script src="pagamento-mercadopago.js"></script>

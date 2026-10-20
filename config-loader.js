@@ -16,13 +16,6 @@
 
 const CONFIG_CHAVE_CACHE = "configLojaOverride"
 
-// A config local e escopada por loja (slug). Sem slug (loja "local"), mantem a
-// chave antiga para nao invalidar o cache ja existente dos clientes atuais.
-function chaveCacheConfig(){
-    const slug = String(window.LOJA_SLUG || "").trim().toLowerCase()
-    return slug ? `${CONFIG_CHAVE_CACHE}:${slug}` : CONFIG_CHAVE_CACHE
-}
-
 // ---------- Merge profundo (o "extra" sobrescreve o "base") ----------
 
 function ehObjetoSimples(v){
@@ -46,15 +39,15 @@ function mergeProfundo(base, extra){
 // ---------- Cache local ----------
 
 function lerConfigCache(){
-    try{ return JSON.parse(localStorage.getItem(chaveCacheConfig()) || "{}") }catch(e){ return {} }
+    try{ return JSON.parse(localStorage.getItem(CONFIG_CHAVE_CACHE) || "{}") }catch(e){ return {} }
 }
 
 function salvarConfigNoCache(dados){
-    try{ localStorage.setItem(chaveCacheConfig(), JSON.stringify(dados || {})) }catch(e){}
+    try{ localStorage.setItem(CONFIG_CHAVE_CACHE, JSON.stringify(dados || {})) }catch(e){}
 }
 
 function limparConfigCache(){
-    try{ localStorage.removeItem(chaveCacheConfig()) }catch(e){}
+    try{ localStorage.removeItem(CONFIG_CHAVE_CACHE) }catch(e){}
 }
 
 // ---------- Helpers de cor/fonte ----------
@@ -107,9 +100,6 @@ function aplicarTema(){
     set("--bg-card",       t.card)
     set("--bg-item",       t.item)
     set("--radius",        t.raio)
-
-    // Imagem de capa do topo (configuravel por loja; vira a variavel --capa)
-    if(t.capa) set("--capa", `url("${t.capa}")`)
 
     const corpo  = t.fontes?.corpo  || "Nunito"
     const titulo = t.fontes?.titulo || corpo

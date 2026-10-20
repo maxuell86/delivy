@@ -1,66 +1,52 @@
-# 🍕 Delivy — App de Delivery multi-estabelecimento (SaaS)
+# 🍕 App de Delivery — template white-label
 
-PWA estático de delivery (pizzaria/restaurante) que agora serve **vários
-estabelecimentos** a partir da mesma base de código, cada um no seu subdomínio
-(ex: `pizzaria.delivy.com.br`), com identidade, cardápio, horários, frete,
-cupons e Pix próprios.
+PWA estático de delivery (pizzaria/restaurante) que roda em qualquer hospedagem
+de arquivos (GitHub Pages, Netlify, etc.) e é personalizável **sem mexer em
+código**: marca, cores, horários, frete, cupons, fidelidade e SEO ficam em um
+único arquivo (`config.js`) ou no painel do lojista (`customizar.html`).
 
-O projeto nasceu para a pizzaria **Sabore In Casa** e hoje é a plataforma:
-os valores dela seguem em `config.js` como padrão da "loja local".
+O projeto nasceu para a pizzaria **Sabore In Casa** e hoje serve de template:
+os valores dela ficam em `config.js` como padrão.
 
-> 📌 **Vai colocar em produção?** Siga o passo a passo em [`DEPLOY.md`](DEPLOY.md).
+## 📱 Funcionalidades
 
-## 🏗️ Como funciona a arquitetura
-
-Dois Supabase (ou dois papéis):
-
-```
-                 ┌───────────────────────────────────────────┐
-  cliente ──►    │  *.delivy.com.br  (mesma pasta de arquivos)│
-                 │  1. tenant.js lê o subdomínio               │
-                 │  2. consulta o CONTROL PLANE (resolver_loja)│
-                 │  3. conecta no Supabase DAQUELA loja         │
-                 └───────────────┬────────────────────────────┘
-                                 │
-      ┌──────────────────────────┴────────────────────────────┐
-      ▼                                                        ▼
- CONTROL PLANE (1 Supabase seu)                  DATA PLANE (1 Supabase por loja)
- plataforma.sql: tabela `lojas`,                 config-loja.sql: config_loja, RPCs
- resolver_loja(), painel master                  + o sistema de gestão de cada loja
-                                                 storage.sql: bucket de imagens
-```
-
-* **Control plane** = cadastro das lojas (`supabase/plataforma.sql`) + `master.html`.
-* **Data plane** = o Supabase de cada estabelecimento (o que o "sistema de
-  gestão" dele já usa), personalizado pelo `customizar.html`.
-
-> Sem control plane configurado, o app continua funcionando como antes: uma
-> única loja, usando o `config.js`. Isso preserva o deploy atual da Sabore.
+* Cardápio digital (pizzas e bebidas ao vivo do Supabase; combos/snacks locais)
+* Escolha de tamanho da pizza, borda e meio a meio
+* Carrinho de compras com frete por bairro/faixa e regra de frete grátis
+* Programa de fidelidade com níveis configuráveis
+* Cupons (livres, por nível de gasto ou de aniversário)
+* Happy hour / promoção relâmpago com contador
+* Pedido via WhatsApp
+* Pagamento via Pix / cartão (Mercado Pago) direto no app
+* Instalação como aplicativo (PWA)
+* SEO automático (title, Open Graph, JSON-LD de Restaurante e Cardápio)
 
 ## 🧾 Estrutura do projeto
 
 ```
-plataforma.js            -> ⭐ Config da PLATAFORMA (domínio base, control plane)
-tenant.js                -> Resolve a loja pelo subdomínio/?loja= e cria window.LOJA
-master.html / master.js  -> 🛰️ Painel master: cadastra e gerencia estabelecimentos
-config.js                -> Identidade PADRÃO da loja (template)
-config-loader.js         -> Mescla config.js + cache local + Supabase e aplica tema/marca/SEO
-customizar.html          -> 🎨 Painel do lojista (personaliza a loja, com upload de imagens)
-customizar.js            -> Lógica do painel
-supabase/plataforma.sql  -> Control plane (rode uma vez no Supabase da plataforma)
-supabase/config-loja.sql -> Config da loja (rode uma vez no Supabase de cada loja)
-supabase/storage.sql     -> Bucket de imagens da loja (rode uma vez por loja)
-index.html / styles.css  -> App de delivery (cores e capa via variáveis CSS)
-app.js                   -> Cardápio, carrinho e pedidos
-integracao-sistema.js    -> Cardápio ao vivo + registro de pedidos (Supabase da loja)
-pagamento-mercadopago.js -> Pix/cartão (Mercado Pago)
-produtos.json            -> Reserva local de combos/snacks/bebidas
-sw.js / manifest.json    -> PWA
-admin.html               -> Atalhos para o painel de gestão e o customizador
-imagens/                 -> Fotos, banners e ícones padrão
+config.js               -> ⭐ Identidade da loja INTEIRA (marca, tema, horários,
+                           entrega, fidelidade, cupons, banners, SEO, chaves)
+config-loader.js        -> Mescla config.js + cache local + Supabase e aplica
+                           tema/marca/SEO no app
+customizar.html         -> 🎨 Painel do lojista (personaliza tudo, sem código)
+customizar.js           -> Lógica do painel
+supabase/config-loja.sql-> Cria config_loja + funções no Supabase (rode uma vez)
+index.html              -> Página principal
+styles.css              -> Design do app (cores via variáveis CSS)
+app.js                  -> Lógica do cardápio, carrinho e pedidos
+integracao-sistema.js   -> Cardápio ao vivo + registro de vendas (Supabase)
+produtos.json           -> Reserva local de combos/snacks/bebidas
+pagamento-mercadopago.js-> Pagamento com cartão/Pix (Mercado Pago)
+pix.js / mapa.js        -> Utilitários avulsos (chave Pix e "ver no mapa")
+impressao.js            -> Impressão de pedidos
+notificacao.js          -> Notificações locais do navegador (opcional)
+sw.js                   -> Service worker (título de instalação do PWA)
+manifest.json           -> Instalação como app
+admin.html              -> Atalhos para o painel de gestão e o customizador
+imagens/                -> Fotos, banners e ícones
 ```
 
-## 🚀 Como rodar local
+## 🚀 Como rodar
 
 Não precisa de Node nem build — sirva os arquivos estáticos:
 
@@ -68,77 +54,63 @@ Não precisa de Node nem build — sirva os arquivos estáticos:
 python -m http.server 8000
 ```
 
-Depois abra http://localhost:8000.
+Depois abra http://localhost:8000 no navegador.
 
-Para testar uma loja específica sem subdomínio, use `?loja=<slug>`:
+## 🎨 Personalizar (painel do lojista)
 
-```
-http://localhost:8000/?loja=saboreincasa
-```
+1. Rode o arquivo **`supabase/config-loja.sql`** no SQL Editor do seu projeto
+   Supabase (cria a tabela `config_loja` e as funções com senha).
+2. Abra **`customizar.html`** (ou o link no `admin.html`) e entre com a senha
+   inicial **`sabore2024`** — troque-a na aba *Avançado*.
+3. Ajuste as abas (Marca & Contato, Tema, Horários, Entrega, Fidelidade &
+   Cupons, Banners, Integrações & SEO) e clique em **Salvar e publicar**.
 
-## 🛰️ Passo 1 — Configurar a plataforma (control plane)
+O que o painel salva vai para o Supabase e vale para todos os clientes na hora
+(com cache local para o app funcionar mesmo offline). A senha protege contra
+uso casual; a gravação é sempre validada no servidor.
 
-1. Crie um projeto Supabase só para a plataforma (separado do Supabase de cada
-   restaurante) e rode `supabase/plataforma.sql` no SQL Editor.
-2. Em `plataforma.js`, preencha:
-   * `dominioBase`: ex. `delivy.com.br` (habilita `slug.delivy.com.br`);
-   * `controlPlane.supabaseUrl` e `controlPlane.supabaseAnonKey` (do projeto acima).
-3. Publique os arquivos num host com **domínio wildcard** (`*.delivy.com.br` →
-   Vercel/Netlify/Cloudflare Pages), com SSL wildcard.
+* **Exportar config.js** baixa o arquivo pronto — bom para versionar no Git
+  ou para quando quiser que os padrões do projeto mudem de vez.
+* **Restaurar padrão** apaga a personalização salva e volta ao `config.js`.
 
-## 🏪 Passo 2 — Criar uma loja
+Também dá para personalizar tudo editando **`config.js`** direto (útil para
+trocar o restaurante de ponta a ponta antes de entregar o app).
 
-1. Abra `master.html` (ex. `https://app.delivy.com.br/master.html`).
-2. Entre com a senha master (inicial **`delivy2024`** — troque depois).
-3. Clique em **+ Nova loja** e informe:
-   * **slug** (vira o subdomínio, ex. `pizzariadobairro`);
-   * nome, status (`trial`/`ativo`/`suspenso`), plano;
-   * `Supabase URL` e `Supabase anon key` **da loja** (o data plane dela);
-   * WhatsApp, chave Pix, chave pública do Mercado Pago, link do painel de gestão.
+## ✅ Checklist: criar o app de um restaurante novo
 
-A loja já responde em `https://<slug>.delivy.com.br`.
+1. Duplique o projeto.
+2. Edite `config.js` (ou use o painel depois): nome, slogan, WhatsApp,
+   endereço, horários, faixas de frete/bairros, níveis, cupons, banners, SEO.
+3. Troque as imagens em `/imagens` (logo, banners, fotos) e o `manifest.json`.
+4. Crie o projeto Supabase do restaurante e rode `supabase/config-loja.sql`.
+5. Preencha `integracoes.supabaseUrl`, `supabaseAnonKey`,
+   `mercadoPagoPublicKey` e `pixChave` no `config.js`.
+6. Ajuste `seo.baseUrl` para a URL publicada e `integracoes.painelGestaoUrl`
+   para o painel de gestão dele (se houver).
+7. Publique os arquivos (GitHub Pages ou outra hospedagem) e faça um pedido
+   de teste de ponta a ponta (WhatsApp + Pix/cartão).
 
-## 🎨 Passo 3 — Personalizar a loja
+## 🔗 Integração com o sistema de gestão
 
-No Supabase **da loja**:
+O cardápio (pizzas e bebidas, com preço por sabor/tamanho) vem ao vivo do
+banco Supabase do painel de gestão da loja, e cada pedido gera uma venda
+automaticamente lá. Se o Supabase ficar indisponível, o app cai para o
+cardápio de reserva (`config.js > cardapio` e `produtos.json`) — o pedido
+pelo WhatsApp nunca fica bloqueado por isso. Detalhes em
+`integracao-sistema.js`.
 
-1. Rode `supabase/config-loja.sql` (cria `config_loja` + funções).
-2. Rode `supabase/storage.sql` (cria o bucket `loja-imagens`). Enquanto o painel
-   não tiver login (Supabase Auth), descomente o bloco **ESCRITA ANÔNIMA**.
-3. Abra `https://<slug>.delivy.com.br/customizar.html`, entre com a senha do
-   painel (inicial **`sabore2024`** — troque em *Avançado*) e ajuste tudo:
-   Marca & Contato, Tema (incl. **imagem de capa** com upload), Horários,
-   Entrega, Fidelidade & Cupons, Banners (com upload), Integrações & SEO.
+> **Atenção (fase 6, opcional):** os cupons/fidelidade também são validados no
+> servidor do Pix/cartão pelas edge functions do Supabase, que ainda têm os
+> valores originais. Enquanto elas não lerem `config_loja` (instruções no fim
+> de `supabase/config-loja.sql`), o painel muda a vitrine do app, mas o valor
+> final cobrado no Pix/cartão segue o que está nas edge functions.
 
-O que o painel salva vai para o Supabase daquela loja e vale para os clientes
-na hora (com cache local por loja para funcionar mesmo offline).
+## 👨‍🍳 Desenvolvido para
 
-## ✅ Passo 4 — Testar com dados reais (1º estabelecimento)
+Pizzaria **Sabore In Casa** — e para qualquer restaurante que precise do
+mesmo app sem reescrever nada.
 
-Rode com uma loja real e um Supabase real e valide:
 
-- [ ] `https://<slug>.delivy.com.br` abre com a identidade correta (nome, cores, logo, capa).
-- [ ] Cardápio carregando das views `v_delivery_*` da loja (e fallback se cair).
-- [ ] Selecionar pizza (tamanho + borda) e bebida.
-- [ ] Frete por bairro + regra de frete grátis.
-- [ ] Cupom e fidelidade aplicando o **mesmo** valor mostrado e cobrado.
-- [ ] Happy hour com contador.
-- [ ] **Dinheiro** → pedido sincroniza (`criar_pedido_delivery`) e abre o WhatsApp no número da loja.
-- [ ] **Pix** → chave do recebedor correta exibida.
-- [ ] Instalar como app no celular (ícone/nome da loja).
-- [ ] Abrir/usar outra loja de teste (`?loja=outra`) sem vazar cache/identidade.
-- [ ] `?loja=naoexiste` mostra "Estabelecimento não encontrado".
 
-## ⚠️ Limitações conhecidas (backlog pós-MVP)
 
-* **Pagamento**: no MVP o fluxo é WhatsApp + Pix manual (chave do recebedor). O
-  Pix/cartão automático via Mercado Pago por loja e o "split" ficam para depois —
-  as *edge functions* ainda têm cupons/fidelidade próprios.
-* **Login**: o painel do lojista e o master usam senha simples (sem Supabase
-  Auth). Migrar para Auth + RLS por loja é a próxima fase.
-* **manifest dinâmico**: desligado por padrão (`pwa.manifestDinamico`). O
-  `manifest.json` é único do projeto; por loja ainda não é gerado.
-* **Domínio próprio por loja**: previsto no control plane (`dominio_custom`),
-  ainda não roteado.
-* **Capa/SEO por loja**: a capa já é configurável; o `index.html` mantém
-  placeholders que o `config-loader.js` sobrescreve em tempo de execução.
+
