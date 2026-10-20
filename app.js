@@ -565,7 +565,7 @@ function usarCupomDireto(codigo){
 
 function indicarAmigo(){
     const c   = CONFIG
-    const msg = encodeURIComponent(`Conhece o ${c.marca.nome}? Delivery de pizza incrivel em ${c.endereco.cidade}! Peca aqui: ${c.seo.baseUrl}`)
+    const msg = encodeURIComponent(`Conhece o ${c.marca.nome}? Delivery de Hambuguer incrivel em ${c.endereco.cidade}! Peca aqui: ${c.seo.baseUrl}`)
     window.open(`https://wa.me/?text=${msg}`)
 }
 
@@ -655,7 +655,7 @@ function iniciarBusca(){
         const bebidas = cardapioBebidas.length ? cardapioBebidas.map(b=>({...b, categoria:"bebidas"})) : []
         fetch("produtos.json").then(r=>r.json()).then(produtos=>{
             const outros = bebidas.length ? produtos.filter(p=>p.categoria!=="bebidas") : produtos
-            const todos = [...pizzas.map(p=>({...p,categoria:"pizza"})), ...bebidas, ...outros]
+            const todos = [...pizzas.map(p=>({...p,categoria:"hamburgueres"})), ...bebidas, ...outros]
             const resultado = todos.filter(p =>
                 p.nome.toLowerCase().includes(termo) ||
                 (p.desc||p.descricao||"").toLowerCase().includes(termo) ||
@@ -672,7 +672,7 @@ function iniciarBusca(){
                     const img   = p.img  || p.foto || "imagens/sem-imagem.png"
                     const preco = Number(p.preco ?? p.precoM ?? 0)
                     const cat   = p.categoria || "outro"
-                    if(cat === "pizza"){
+                    if(cat === "hambugueres"){
                         const campoPreco = tamanhosConfig()[0]?.campo || "precoP"
                         const precoTxt = p[campoPreco] ? `A partir R$${Number(p[campoPreco]).toFixed(2).replace(".",",")}` : "Consulte"
                         html += `<div class="card pizza-card"><img src="${img}" loading="lazy" onerror="this.src='imagens/pizza-padrao.png'"><div class="card-content">${p.selo ? `<span class="pizza-selo${p.destaque?" pizza-selo-destaque":""}">${p.selo}</span>` : ""}<h3>${nome}</h3><p>${desc}</p><div class="card-rodape"><span class="preco">${precoTxt}</span><button onclick='abrirMontagemPizza(${JSON.stringify(nome)})'>Montar</button></div></div></div>`
