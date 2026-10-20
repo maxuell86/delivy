@@ -128,7 +128,7 @@ O aplicativo possui um painel administrativo que permite ao lojista alterar core
    * No navegador, abra a URL publicada acrescentando `/customizar.html` (ou clique no link em `admin.html`).
 
 2. **Fazer Login:**
-   * Insira a senha inicial do template: `sabore2024`.
+   * Insira a senha inicial do template: `142536`.
 
 3. **Alterar a Senha Inicial (Importante):**
    > ⚠️ **Atenção:** Por questões de segurança, altere a senha imediatamente após o primeiro acesso.

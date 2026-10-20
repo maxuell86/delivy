@@ -700,7 +700,7 @@ function renderAvancado(){
     el("secAvancado").innerHTML = `
     <h2>Avançado</h2>
     <h3>Trocar a senha do painel</h3>
-    <p class="dica">A senha fica guardada com hash no seu Supabase (tabela interna, sem acesso público). A senha inicial é <b>sabore2024</b>.</p>
+    <p class="dica">A senha fica guardada com hash no seu Supabase (tabela interna, sem acesso público). A senha inicial é <b>142536</b>.</p>
     <div class="grid2">
         ${linha("Senha atual", `<input type="password" id="senhaAtual" autocomplete="current-password">`)}
         ${linha("Nova senha (mínimo 6 caracteres)", `<input type="password" id="senhaNova" autocomplete="new-password">`)}

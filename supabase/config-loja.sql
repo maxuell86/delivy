@@ -13,7 +13,7 @@
 --   ler_config_loja()     -> leitura simples para as edge functions
 --                            (Pix/cartao) usarem as mesmas regras
 --
--- Senha inicial do painel: sabore2024   <-- TROQUE pelo proprio painel!
+-- Senha inicial do painel: 142536   <-- TROQUE pelo proprio painel!
 --
 -- Observacao: quem tem a chave anon (publica, ela vai no app) pode LER a
 -- config_loja, mas nao escrever - escrita so pelos RPCs abaixo, que exigem
@@ -49,7 +49,7 @@ create table if not exists public.config_loja_auth (
 alter table public.config_loja_auth enable row level security;
 
 insert into public.config_loja_auth (id, senha_hash)
-values (1, encode(digest('sabore2024', 'sha256'), 'hex'))
+values (1, encode(digest('142536', 'sha256'), 'hex'))
 on conflict (id) do nothing;
 
 -- ---------------------------------------------------------

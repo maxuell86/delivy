@@ -61,7 +61,7 @@ Depois abra http://localhost:8000 no navegador.
 1. Rode o arquivo **`supabase/config-loja.sql`** no SQL Editor do seu projeto
    Supabase (cria a tabela `config_loja` e as funções com senha).
 2. Abra **`customizar.html`** (ou o link no `admin.html`) e entre com a senha
-   inicial **`sabore2024`** — troque-a na aba *Avançado*.
+   inicial **`142536`** — troque-a na aba *Avançado*.
 3. Ajuste as abas (Marca & Contato, Tema, Horários, Entrega, Fidelidade &
    Cupons, Banners, Integrações & SEO) e clique em **Salvar e publicar**.
 
