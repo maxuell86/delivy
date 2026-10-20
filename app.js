@@ -1084,15 +1084,15 @@ function addCarrinho(nome, preco, tipo="outro", refs={}){
 }
 
 function contarItensFreteGratis(){
-    return carrinho.reduce((a,i)=>a+(i.tipo==="pizza"||i.tipo==="combo"?i.qtd:0),0)
+    return carrinho.reduce((a,i)=>a+(i.tipo==="hamburgueres"||i.tipo==="combo"?i.qtd:0),0)
 }
 
 function temComidaNoCarrinho(){
-    return carrinho.some(i=>["pizza","combo","snacks"].includes(i.tipo))
+    return carrinho.some(i=>["hamburgueres","combo","snacks"].includes(i.tipo))
 }
 
 function temPizzaNoCarrinho(){
-    return carrinho.some(i=>i.tipo==="pizza"||i.tipo==="combo")
+    return carrinho.some(i=>i.tipo==="hamburgueres"||i.tipo==="combo")
 }
 
 // Confere os descontos de verdade no Supabase (mesma logica usada na edge
